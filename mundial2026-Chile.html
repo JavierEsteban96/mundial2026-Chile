@@ -1,299 +1,380 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mundial 2026 – Horarios Chile</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { min-height: 100vh; background: #0a0a12; color: #f0f0f0; font-family: 'Segoe UI', system-ui, sans-serif; }
-
-  /* HEADER */
-  .header { background: linear-gradient(135deg, #c8102e 0%, #003087 100%); padding: 28px 20px 20px; text-align: center; }
-  .header-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
-  .header h1 { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 4px; }
-  .header p { font-size: 13px; color: rgba(255,255,255,0.75); }
-
-  /* LEYENDA */
-  .leyenda { background: #12121e; border-bottom: 1px solid #222; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
-  .badge { border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
-  .badge-chv  { background: #e63329; color: #fff; }
-  .badge-ds   { background: #0033a0; color: #fff; }
-  .badge-dis  { background: #113ccf; color: #fff; }
-  .leyenda-note { color: #888; font-size: 12px; }
-
-  /* FILTROS */
-  .filtros { background: #12121e; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #1e1e2e; }
-  .filtros input, .filtros select {
-    padding: 8px 12px; border-radius: 8px; background: #1e1e30; color: #fff;
-    border: 1px solid #333; font-size: 13px; outline: none;
-  }
-  .filtros input { flex: 1; min-width: 160px; }
-
-  /* CONTADOR */
-  .contador { text-align: center; padding: 8px; background: #0e0e1a; font-size: 12px; color: #666; }
-
-  /* PARTIDOS */
-  .lista { padding: 12px 12px 60px; }
-
-  .fecha-grupo { margin-bottom: 16px; }
-  .fecha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .fase-pill { border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
-  .fecha-label { font-size: 13px; font-weight: 700; color: #bbb; text-transform: capitalize; }
-  .fecha-line { flex: 1; height: 1px; background: #222; }
-
-  .card {
-    background: #16162a; border: 1px solid #222; border-radius: 12px;
-    padding: 12px 14px; margin-bottom: 8px;
-    border-left-width: 4px; border-left-style: solid;
-  }
-  .card-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
-  .card-hora { font-size: 13px; font-weight: 800; color: #f0c040; }
-  .card-grupo { font-size: 11px; color: #888; background: #222; border-radius: 6px; padding: 2px 8px; }
-  .card-partido { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.3; }
-  .card-sede { font-size: 12px; color: #777; margin-bottom: 8px; }
-  .card-canales { display: flex; flex-wrap: wrap; gap: 5px; }
-  .card-canales .badge { font-size: 11px; padding: 3px 10px; }
-
-  .empty { text-align: center; padding: 40px; color: #555; }
-
-  /* FOOTER */
-  footer { text-align: center; padding: 16px; background: #0a0a12; color: #444; font-size: 11px; border-top: 1px solid #1a1a2e; }
-
-  /* FASE COLORS via data attrs handled in JS */
-</style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mundial 2026 – Horarios Chile</title>
+	<style>
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		body { min-height: 100vh; background: #0a0a12; color: #f0f0f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+		
+		.header { background: linear-gradient(135deg, #c8102e 0%, #003087 100%); padding: 28px 20px 20px; text-align: center; }
+		.header-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
+		.header h1 { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 4px; }
+		.header p { font-size: 13px; color: rgba(255,255,255,0.75); }
+		
+		.leyenda { background: #12121e; border-bottom: 1px solid #222; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+		.badge { border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+		.badge-chv  { background: #e63329; color: #fff; }
+		.badge-ds   { background: #0033a0; color: #fff; }
+		.badge-dis  { background: #113ccf; color: #fff; }
+		.leyenda-note { color: #888; font-size: 12px; }
+		
+		/* TABS ESTADO */
+		.tabs { background: #12121e; padding: 10px 16px; display: flex; gap: 8px; border-bottom: 1px solid #1e1e2e; }
+		.tab { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; border: 2px solid transparent; transition: all .2s; color: #888; background: #1e1e30; }
+		.tab:hover { color: #ccc; }
+		.tab.active-todos    { background: #2a2a40; color: #fff; border-color: #555; }
+		.tab.active-proximos { background: #1a3a1a; color: #4caf50; border-color: #4caf50; }
+		.tab.active-jugados  { background: #2a1a1a; color: #f0c040; border-color: #f0c040; }
+		
+		.filtros { background: #12121e; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #1e1e2e; }
+		.filtros input, .filtros select {
+			padding: 8px 12px; border-radius: 8px; background: #1e1e30; color: #fff;
+			border: 1px solid #333; font-size: 13px; outline: none;
+		}
+		.filtros input { flex: 1; min-width: 160px; }
+		
+		.contador { text-align: center; padding: 8px; background: #0e0e1a; font-size: 12px; color: #666; }
+		
+		.lista { padding: 12px 12px 60px; }
+		.fecha-grupo { margin-bottom: 16px; }
+		.fecha-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+		.fase-pill { border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
+		.fecha-label { font-size: 13px; font-weight: 700; color: #bbb; text-transform: capitalize; }
+		.fecha-line { flex: 1; height: 1px; background: #222; }
+		
+		.card {
+			background: #16162a; border: 1px solid #222; border-radius: 12px;
+			padding: 12px 14px; margin-bottom: 8px;
+			border-left-width: 4px; border-left-style: solid;
+			transition: opacity .2s;
+		}
+		.card.jugado { background: #111120; opacity: 0.85; }
+		
+		.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+		.card-hora { font-size: 13px; font-weight: 800; color: #f0c040; }
+		.card-hora.finalizado { color: #888; text-decoration: line-through; }
+		.card-grupo { font-size: 11px; color: #888; background: #222; border-radius: 6px; padding: 2px 8px; }
+		
+		/* MARCADOR */
+		.card-partido-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+		.card-equipo { font-size: 15px; font-weight: 800; color: #fff; flex: 1; }
+		.card-equipo.ganador { color: #4caf50; }
+		.card-equipo.perdedor { color: #888; font-weight: 600; }
+		.card-marcador {
+			display: flex; align-items: center; gap: 6px;
+			background: #0e0e1a; border-radius: 8px; padding: 4px 10px;
+			font-size: 18px; font-weight: 900; letter-spacing: 2px; color: #fff;
+			min-width: 70px; justify-content: center;
+		}
+		.card-marcador.pendiente { color: #444; font-size: 14px; font-weight: 400; letter-spacing: 1px; }
+		.card-marcador span { font-size: 13px; color: #555; }
+		
+		/* ESTADO BADGE */
+		.estado-badge { font-size: 10px; font-weight: 700; border-radius: 10px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; }
+		.estado-ft   { background: #2a1a00; color: #f0c040; }
+		.estado-live { background: #1a3a1a; color: #4caf50; animation: pulse 1s infinite; }
+		.estado-prox { background: #1a1a2e; color: #555; }
+		@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+		
+		.card-sede { font-size: 12px; color: #777; margin-bottom: 8px; margin-top: 4px; }
+		.card-canales { display: flex; flex-wrap: wrap; gap: 5px; }
+		.card-canales .badge { font-size: 11px; padding: 3px 10px; }
+		
+		.empty { text-align: center; padding: 40px; color: #555; }
+		footer { text-align: center; padding: 16px; background: #0a0a12; color: #444; font-size: 11px; border-top: 1px solid #1a1a2e; }
+	</style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-eyebrow">Copa Mundial FIFA 2026</div>
-  <h1>⚽ Calendario para Chile</h1>
-  <p>Horarios en hora chilena · Canales donde ver cada partido</p>
-</div>
-
-<div class="leyenda">
-  <span class="badge badge-chv">📺 CHV</span>
-  <span class="badge badge-ds">📡 DSports</span>
-  <span class="badge badge-dis">🎬 Disney+</span>
-  <span class="leyenda-note">= dónde verlo</span>
-</div>
-
-<div class="filtros">
-  <input type="text" id="busqueda" placeholder="🔍 Buscar equipo o sede..." oninput="render()">
-  <select id="filtroCanal" onchange="render()">
-    <option value="Todos">Todos los canales</option>
-    <option value="CHV">📺 Solo CHV (gratis)</option>
-    <option value="DSports">📡 DSports</option>
-    <option value="Disney+">🎬 Disney+</option>
-  </select>
-  <select id="filtroFase" onchange="render()">
-    <option value="Todos">Todas las fases</option>
-    <option value="Grupos">Grupos</option>
-    <option value="Ronda 32">Ronda 32</option>
-    <option value="Octavos">Octavos</option>
-    <option value="Cuartos">Cuartos</option>
-    <option value="Semifinal">Semifinal</option>
-    <option value="3er Lugar">3er Lugar</option>
-    <option value="Final">Final</option>
-  </select>
-</div>
-
-<div class="contador" id="contador">Cargando...</div>
-<div class="lista" id="lista"></div>
-
-<footer>Fuente: AlAireLibre.cl · CHV transmite ~52 partidos gratis · DSports/DGO y Paramount+ los 104 partidos</footer>
-
-<script>
-const CANALES = {
-  "CHV":     { bg: "#e63329", text: "#fff", label: "📺 CHV", cls: "badge-chv" },
-  "DSports": { bg: "#0033a0", text: "#fff", label: "📡 DSports", cls: "badge-ds" },
-  "Disney+": { bg: "#113ccf", text: "#fff", label: "🎬 Disney+", cls: "badge-dis" },
-};
-const FASE_COL = {
-  "Grupos":   "#1a472a",
-  "Ronda 32": "#1a3a5c",
-  "Octavos":  "#2d1b69",
-  "Cuartos":  "#6b2e00",
-  "Semifinal":"#7a1c1c",
-  "3er Lugar":"#4a4a00",
-  "Final":    "#8b0000",
-};
-
-const DIAS = ["dom","lun","mar","mié","jue","vie","sáb"];
-const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-function fmtFecha(str) {
-  const [y,m,d] = str.split("-").map(Number);
-  const dt = new Date(y, m-1, d);
-  return `${DIAS[dt.getDay()]} ${d} ${MESES[m-1]}`;
-}
-
-const partidos = [
-  { fecha:"2026-06-11", hora:"15:00", local:"México",         visita:"Sudáfrica",    grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-11", hora:"22:00", local:"Corea del Sur",  visita:"Rep. Checa",   grupo:"A", sede:"Guadalajara",      canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-12", hora:"15:00", local:"Canadá",         visita:"Bosnia-Herz.", grupo:"B", sede:"Toronto",          canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-12", hora:"21:00", local:"Estados Unidos", visita:"Paraguay",     grupo:"D", sede:"Los Ángeles",      canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-13", hora:"15:00", local:"Catar",          visita:"Suiza",        grupo:"B", sede:"San Francisco",    canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-13", hora:"18:00", local:"Brasil",         visita:"Marruecos",    grupo:"C", sede:"Nueva Jersey",     canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-13", hora:"21:00", local:"Haití",          visita:"Escocia",      grupo:"C", sede:"Boston",           canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-14", hora:"00:00", local:"Australia",      visita:"Turquía",      grupo:"D", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-14", hora:"13:00", local:"Alemania",       visita:"Curazao",      grupo:"E", sede:"Houston",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-14", hora:"16:00", local:"Países Bajos",   visita:"Japón",        grupo:"F", sede:"Dallas",           canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-14", hora:"19:00", local:"Costa de Marfil",visita:"Ecuador",      grupo:"E", sede:"Filadelfia",       canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-14", hora:"22:00", local:"Suecia",         visita:"Túnez",        grupo:"F", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-15", hora:"12:00", local:"España",         visita:"Cabo Verde",   grupo:"H", sede:"Atlanta",          canales:["DSports","Disney+"],       fase:"Grupos" },
-  { fecha:"2026-06-15", hora:"15:00", local:"Bélgica",        visita:"Egipto",       grupo:"G", sede:"Seattle",          canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-15", hora:"18:00", local:"Arabia Saudita", visita:"Uruguay",      grupo:"H", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-15", hora:"21:00", local:"Irán",           visita:"Nueva Zelanda",grupo:"G", sede:"Los Ángeles",      canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-16", hora:"15:00", local:"Francia",        visita:"Senegal",      grupo:"I", sede:"Nueva Jersey",     canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-16", hora:"18:00", local:"Irak",           visita:"Noruega",      grupo:"I", sede:"Boston",           canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-16", hora:"21:00", local:"Argentina",      visita:"Argelia",      grupo:"J", sede:"Kansas City",      canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-17", hora:"00:00", local:"Austria",        visita:"Jordania",     grupo:"J", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-17", hora:"13:00", local:"Portugal",       visita:"RD Congo",     grupo:"K", sede:"Houston",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-17", hora:"16:00", local:"Inglaterra",     visita:"Croacia",      grupo:"L", sede:"Dallas",           canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-17", hora:"19:00", local:"Ghana",          visita:"Panamá",       grupo:"L", sede:"Toronto",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-17", hora:"22:00", local:"Uzbekistán",     visita:"Colombia",     grupo:"K", sede:"Ciudad de México", canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-18", hora:"12:00", local:"Rep. Checa",     visita:"Sudáfrica",    grupo:"A", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-18", hora:"15:00", local:"Suiza",          visita:"Bosnia-Herz.", grupo:"B", sede:"Los Ángeles",      canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-18", hora:"18:00", local:"Canadá",         visita:"Catar",        grupo:"B", sede:"Vancouver",        canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-18", hora:"22:00", local:"México",         visita:"Corea del Sur",grupo:"A", sede:"Guadalajara",      canales:["DSports","Disney+"],       fase:"Grupos" },
-  { fecha:"2026-06-19", hora:"15:00", local:"Estados Unidos", visita:"Australia",    grupo:"D", sede:"Seattle",          canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-19", hora:"18:00", local:"Escocia",        visita:"Marruecos",    grupo:"C", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-19", hora:"21:00", local:"Brasil",         visita:"Haití",        grupo:"C", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-19", hora:"23:00", local:"Turquía",        visita:"Paraguay",     grupo:"D", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-20", hora:"13:00", local:"Países Bajos",   visita:"Suecia",       grupo:"F", sede:"Houston",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-20", hora:"16:00", local:"Alemania",       visita:"Costa de Marfil",grupo:"E",sede:"Toronto",         canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-20", hora:"20:00", local:"Ecuador",        visita:"Curazao",      grupo:"E", sede:"Kansas City",      canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-21", hora:"00:00", local:"Túnez",          visita:"Japón",        grupo:"F", sede:"Monterrey",        canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-21", hora:"12:00", local:"España",         visita:"Arabia Saudita",grupo:"H",sede:"Atlanta",          canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-21", hora:"15:00", local:"Bélgica",        visita:"Irán",         grupo:"G", sede:"Los Ángeles",      canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-21", hora:"18:00", local:"Uruguay",        visita:"Cabo Verde",   grupo:"H", sede:"Miami",            canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-21", hora:"21:00", local:"Nueva Zelanda",  visita:"Egipto",       grupo:"G", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-22", hora:"13:00", local:"Argentina",      visita:"Austria",      grupo:"J", sede:"Dallas",           canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-22", hora:"17:00", local:"Francia",        visita:"Irak",         grupo:"I", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-22", hora:"20:00", local:"Noruega",        visita:"Senegal",      grupo:"I", sede:"Nueva Jersey",     canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-22", hora:"23:00", local:"Jordania",       visita:"Argelia",      grupo:"J", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-23", hora:"13:00", local:"Portugal",       visita:"Uzbekistán",   grupo:"K", sede:"Houston",          canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-23", hora:"16:00", local:"Inglaterra",     visita:"Ghana",        grupo:"L", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-23", hora:"19:00", local:"Panamá",         visita:"Croacia",      grupo:"L", sede:"Toronto",          canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-23", hora:"22:00", local:"Colombia",       visita:"RD Congo",     grupo:"K", sede:"Guadalajara",      canales:["DSports","Disney+"],       fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"15:00", local:"Suiza",          visita:"Canadá",       grupo:"B", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"15:00", local:"Bosnia-Herz.",   visita:"Catar",        grupo:"B", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"18:00", local:"Brasil",         visita:"Escocia",      grupo:"C", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"18:00", local:"Marruecos",      visita:"Haití",        grupo:"C", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"21:00", local:"México",         visita:"Rep. Checa",   grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-24", hora:"21:00", local:"Sudáfrica",      visita:"Corea del Sur",grupo:"A", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"16:00", local:"Curazao",        visita:"Costa de Marfil",grupo:"E",sede:"Filadelfia",      canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"16:00", local:"Ecuador",        visita:"Alemania",     grupo:"E", sede:"Nueva Jersey",     canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"19:00", local:"Japón",          visita:"Suecia",       grupo:"F", sede:"Dallas",           canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"19:00", local:"Túnez",          visita:"Países Bajos", grupo:"F", sede:"Kansas City",      canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"22:00", local:"Turquía",        visita:"Estados Unidos",grupo:"D",sede:"Los Ángeles",      canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-25", hora:"22:00", local:"Paraguay",       visita:"Australia",    grupo:"D", sede:"San Francisco",    canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"15:00", local:"Noruega",        visita:"Francia",      grupo:"I", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"15:00", local:"Senegal",        visita:"Irak",         grupo:"I", sede:"Toronto",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"20:00", local:"Cabo Verde",     visita:"Arabia Saudita",grupo:"H",sede:"Houston",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"20:00", local:"Uruguay",        visita:"España",       grupo:"H", sede:"Guadalajara",      canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"23:00", local:"Egipto",         visita:"Irán",         grupo:"G", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-26", hora:"23:00", local:"Nueva Zelanda",  visita:"Bélgica",      grupo:"G", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"17:00", local:"Inglaterra",     visita:"Panamá",       grupo:"L", sede:"Nueva Jersey",     canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"17:00", local:"Croacia",        visita:"Ghana",        grupo:"L", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"19:30", local:"Portugal",       visita:"Colombia",     grupo:"K", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"19:30", local:"RD Congo",       visita:"Uzbekistán",   grupo:"K", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"22:00", local:"Argentina",      visita:"Jordania",     grupo:"J", sede:"Dallas",           canales:["DSports","Disney+"],       fase:"Grupos" },
-  { fecha:"2026-06-27", hora:"22:00", local:"Argelia",        visita:"Austria",      grupo:"J", sede:"Kansas City",      canales:["DSports"],                 fase:"Grupos" },
-  // Ronda 32
-  { fecha:"2026-06-28", hora:"TBD", local:"1º Grupo A",  visita:"3º mejor",    grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-06-28", hora:"TBD", local:"1º Grupo C",  visita:"3º mejor",    grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-06-29", hora:"TBD", local:"1º Grupo B",  visita:"3º mejor",    grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-06-29", hora:"TBD", local:"1º Grupo D",  visita:"2º Grupo D",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-06-30", hora:"TBD", local:"1º Grupo E",  visita:"3º mejor",    grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-06-30", hora:"TBD", local:"1º Grupo F",  visita:"2º Grupo F",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-01", hora:"TBD", local:"1º Grupo G",  visita:"2º Grupo G",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-01", hora:"TBD", local:"1º Grupo H",  visita:"2º Grupo H",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-02", hora:"TBD", local:"1º Grupo I",  visita:"2º Grupo I",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-02", hora:"TBD", local:"1º Grupo J",  visita:"2º Grupo J",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-03", hora:"TBD", local:"1º Grupo K",  visita:"2º Grupo K",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  { fecha:"2026-07-03", hora:"TBD", local:"1º Grupo L",  visita:"2º Grupo L",  grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32" },
-  // Octavos
-  { fecha:"2026-07-04", hora:"TBD", local:"Octavo 1", visita:"Octavo 2", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos" },
-  { fecha:"2026-07-05", hora:"TBD", local:"Octavo 3", visita:"Octavo 4", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos" },
-  { fecha:"2026-07-06", hora:"TBD", local:"Octavo 5", visita:"Octavo 6", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos" },
-  { fecha:"2026-07-07", hora:"TBD", local:"Octavo 7", visita:"Octavo 8", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos" },
-  // Cuartos
-  { fecha:"2026-07-09", hora:"TBD", local:"Cuarto 1", visita:"Cuarto 2", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos" },
-  { fecha:"2026-07-10", hora:"TBD", local:"Cuarto 3", visita:"Cuarto 4", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos" },
-  { fecha:"2026-07-11", hora:"TBD", local:"Cuarto 5", visita:"Cuarto 6", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos" },
-  { fecha:"2026-07-12", hora:"TBD", local:"Cuarto 7", visita:"Cuarto 8", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos" },
-  // Semifinales
-  { fecha:"2026-07-14", hora:"TBD", local:"Semifinal 1", visita:"", grupo:"-", sede:"Atlanta",  canales:["CHV","DSports","Disney+"], fase:"Semifinal" },
-  { fecha:"2026-07-15", hora:"TBD", local:"Semifinal 2", visita:"", grupo:"-", sede:"Dallas",   canales:["CHV","DSports","Disney+"], fase:"Semifinal" },
-  // Tercer lugar
-  { fecha:"2026-07-18", hora:"TBD", local:"3er Lugar",   visita:"", grupo:"-", sede:"Miami",    canales:["CHV","DSports","Disney+"], fase:"3er Lugar" },
-  // Final
-  { fecha:"2026-07-19", hora:"17:00", local:"GRAN FINAL",  visita:"", grupo:"-", sede:"Nueva Jersey (MetLife)", canales:["CHV","DSports","Disney+"], fase:"Final" },
-];
-
-function render() {
-  const q     = document.getElementById("busqueda").value.toLowerCase();
-  const canal = document.getElementById("filtroCanal").value;
-  const fase  = document.getElementById("filtroFase").value;
-
-  const filtrados = partidos.filter(p => {
-    const mCanal = canal === "Todos" || p.canales.includes(canal);
-    const mFase  = fase  === "Todos" || p.fase === fase;
-    const mQ     = !q || p.local.toLowerCase().includes(q) || p.visita.toLowerCase().includes(q) || p.sede.toLowerCase().includes(q);
-    return mCanal && mFase && mQ;
-  });
-
-  document.getElementById("contador").textContent =
-    `Mostrando ${filtrados.length} partido${filtrados.length !== 1 ? "s" : ""}`;
-
-  // Agrupar por fecha
-  const grupos = {};
-  for (const p of filtrados) {
-    if (!grupos[p.fecha]) grupos[p.fecha] = [];
-    grupos[p.fecha].push(p);
-  }
-  const fechas = Object.keys(grupos).sort();
-
-  const lista = document.getElementById("lista");
-  if (fechas.length === 0) {
-    lista.innerHTML = `<div class="empty">No hay partidos con esos filtros.</div>`;
-    return;
-  }
-
-  lista.innerHTML = fechas.map(f => {
-    const ps   = grupos[f];
-    const fc   = FASE_COL[ps[0].fase] || "#333";
-    const cards = ps.map(p => {
-      const canalesBadges = p.canales.map(c => {
-        const info = CANALES[c] || {};
-        return `<span class="badge" style="background:${info.bg};color:${info.text}">${info.label || c}</span>`;
-      }).join("");
-      return `
-        <div class="card" style="border-left-color:${FASE_COL[p.fase]||'#444'}">
-          <div class="card-top">
-            <span class="card-hora">🕐 ${p.hora} hrs</span>
-            ${p.grupo !== "-" ? `<span class="card-grupo">Grupo ${p.grupo}</span>` : ""}
-          </div>
-          <div class="card-partido">${p.visita ? `${p.local} vs ${p.visita}` : p.local}</div>
-          <div class="card-sede">📍 ${p.sede}</div>
-          <div class="card-canales">${canalesBadges}</div>
-        </div>`;
-    }).join("");
-
-    return `
-      <div class="fecha-grupo">
-        <div class="fecha-header">
-          <span class="fase-pill" style="background:${fc}">${ps[0].fase}</span>
-          <span class="fecha-label">${fmtFecha(f)}</span>
-          <div class="fecha-line"></div>
-        </div>
-        ${cards}
-      </div>`;
-  }).join("");
-}
-
-render();
-</script>
+	<div class="header">
+		<div class="header-eyebrow">Copa Mundial FIFA 2026</div>
+		<h1>⚽ Calendario para Chile</h1>
+		<p>Horarios en hora chilena · Canales donde ver cada partido</p>
+	</div>
+	
+	<div class="leyenda">
+		<span class="badge badge-chv">📺 CHV</span>
+		<span class="badge badge-ds">📡 DSports</span>
+		<span class="badge badge-dis">🎬 Disney+</span>
+		<span class="leyenda-note">= dónde verlo</span>
+	</div>
+	
+	<!-- TABS -->
+	<div class="tabs">
+		<div class="tab active-todos" id="tab-todos"    onclick="setTab('todos')">🗓 Todos</div>
+		<div class="tab"              id="tab-proximos" onclick="setTab('proximos')">🟢 Próximos</div>
+		<div class="tab"              id="tab-jugados"  onclick="setTab('jugados')">✅ Jugados</div>
+	</div>
+	
+	<div class="filtros">
+		<input type="text" id="busqueda" placeholder="🔍 Buscar equipo o sede..." oninput="render()">
+		<select id="filtroCanal" onchange="render()">
+			<option value="Todos">Todos los canales</option>
+			<option value="CHV">📺 Solo CHV (gratis)</option>
+			<option value="DSports">📡 DSports</option>
+			<option value="Disney+">🎬 Disney+</option>
+		</select>
+		<select id="filtroFase" onchange="render()">
+			<option value="Todos">Todas las fases</option>
+			<option value="Grupos">Grupos</option>
+			<option value="Ronda 32">Ronda 32</option>
+			<option value="Octavos">Octavos</option>
+			<option value="Cuartos">Cuartos</option>
+			<option value="Semifinal">Semifinal</option>
+			<option value="3er Lugar">3er Lugar</option>
+			<option value="Final">Final</option>
+		</select>
+	</div>
+	
+	<div class="contador" id="contador">Cargando...</div>
+	<div class="lista" id="lista"></div>
+	<footer>Fuente: AlAireLibre.cl · CHV transmite ~52 partidos gratis · DSports/DGO y Disney+ los 104 partidos</footer>
+	
+	<script>
+		// ─── CONFIGURACIÓN DE CANALES Y FASES ────────────────────────────────────────
+		const CANALES = {
+			"CHV":     { bg:"#e63329", text:"#fff", label:"📺 CHV" },
+			"DSports": { bg:"#0033a0", text:"#fff", label:"📡 DSports" },
+			"Disney+": { bg:"#113ccf", text:"#fff", label:"🎬 Disney+" },
+		};
+		const FASE_COL = {
+			"Grupos":"#1a472a","Ronda 32":"#1a3a5c","Octavos":"#2d1b69",
+			"Cuartos":"#6b2e00","Semifinal":"#7a1c1c","3er Lugar":"#4a4a00","Final":"#8b0000",
+		};
+		const DIAS  = ["dom","lun","mar","mié","jue","vie","sáb"];
+		const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+		
+		function fmtFecha(str) {
+			const [y,m,d] = str.split("-").map(Number);
+			const dt = new Date(y, m-1, d);
+			return `${DIAS[dt.getDay()]} ${d} ${MESES[m-1]}`;
+		}
+		
+		// ─── DATOS ───────────────────────────────────────────────────────────────────
+		// resultado: null = pendiente | [golesLocal, golesVisita] = jugado
+		// estado: "pendiente" | "live" | "ft"
+		const partidos = [
+		// ── FASE DE GRUPOS ──────────────────────────────────────────────────────────
+		{ fecha:"2026-06-11", hora:"15:00", local:"México",          visita:"Sudáfrica",     grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[2,0], estado:"ft" },
+		{ fecha:"2026-06-11", hora:"22:00", local:"Corea del Sur",   visita:"Rep. Checa",    grupo:"A", sede:"Guadalajara",      canales:["DSports"],                 fase:"Grupos", resultado:[2,1], estado:"ft" },
+		{ fecha:"2026-06-12", hora:"15:00", local:"Canadá",          visita:"Bosnia-Herz.",  grupo:"B", sede:"Toronto",          canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-12", hora:"21:00", local:"Estados Unidos",  visita:"Paraguay",      grupo:"D", sede:"Los Ángeles",      canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[4,1], estado:"ft" },
+		{ fecha:"2026-06-13", hora:"15:00", local:"Catar",           visita:"Suiza",         grupo:"B", sede:"San Francisco",    canales:["CHV","DSports"],           fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-13", hora:"18:00", local:"Brasil",          visita:"Marruecos",     grupo:"C", sede:"Nueva Jersey",     canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-13", hora:"21:00", local:"Haití",           visita:"Escocia",       grupo:"C", sede:"Boston",           canales:["DSports"],                 fase:"Grupos", resultado:[0,1], estado:"ft" },
+		{ fecha:"2026-06-14", hora:"00:00", local:"Australia",       visita:"Turquía",       grupo:"D", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:[2,0], estado:"ft" },
+		{ fecha:"2026-06-14", hora:"13:00", local:"Alemania",        visita:"Curazao",       grupo:"E", sede:"Houston",          canales:["DSports"],                 fase:"Grupos", resultado:[7,1], estado:"ft" },
+		{ fecha:"2026-06-14", hora:"16:00", local:"Países Bajos",    visita:"Japón",         grupo:"F", sede:"Dallas",           canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[2,2], estado:"ft" },
+		{ fecha:"2026-06-14", hora:"19:00", local:"Costa de Marfil", visita:"Ecuador",       grupo:"E", sede:"Filadelfia",       canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,0], estado:"ft" },
+		{ fecha:"2026-06-14", hora:"22:00", local:"Suecia",          visita:"Túnez",         grupo:"F", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos", resultado:[5,1], estado:"ft" },
+		{ fecha:"2026-06-15", hora:"12:00", local:"España",          visita:"Cabo Verde",    grupo:"H", sede:"Atlanta",          canales:["DSports","Disney+"],       fase:"Grupos", resultado:[0,0], estado:"ft" },
+		{ fecha:"2026-06-15", hora:"15:00", local:"Bélgica",         visita:"Egipto",        grupo:"G", sede:"Seattle",          canales:["CHV","DSports"],           fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-15", hora:"18:00", local:"Arabia Saudita",  visita:"Uruguay",       grupo:"H", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-15", hora:"21:00", local:"Irán",            visita:"Nueva Zelanda", grupo:"G", sede:"Los Ángeles",      canales:["DSports"],                 fase:"Grupos", resultado:[2,2], estado:"ft" },
+		{ fecha:"2026-06-16", hora:"15:00", local:"Francia",         visita:"Senegal",       grupo:"I", sede:"Nueva Jersey",     canales:["CHV","DSports"],           fase:"Grupos", resultado:[3,1], estado:"ft" },
+		{ fecha:"2026-06-16", hora:"18:00", local:"Irak",            visita:"Noruega",       grupo:"I", sede:"Boston",           canales:["DSports"],                 fase:"Grupos", resultado:[1,4], estado:"ft" },
+		{ fecha:"2026-06-16", hora:"21:00", local:"Argentina",       visita:"Argelia",       grupo:"J", sede:"Kansas City",      canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[3,0], estado:"ft" },
+		{ fecha:"2026-06-17", hora:"00:00", local:"Austria",         visita:"Jordania",      grupo:"J", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos", resultado:[3,1], estado:"ft" },
+		{ fecha:"2026-06-17", hora:"13:00", local:"Portugal",        visita:"RD Congo",      grupo:"K", sede:"Houston",          canales:["DSports"],                 fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-17", hora:"16:00", local:"Inglaterra",      visita:"Croacia",       grupo:"L", sede:"Dallas",           canales:["CHV","DSports"],           fase:"Grupos", resultado:[4,2], estado:"ft" },
+		{ fecha:"2026-06-17", hora:"19:00", local:"Ghana",           visita:"Panamá",        grupo:"L", sede:"Toronto",          canales:["DSports"],                 fase:"Grupos", resultado:[1,0], estado:"ft" },
+		{ fecha:"2026-06-17", hora:"22:00", local:"Uzbekistán",      visita:"Colombia",      grupo:"K", sede:"Ciudad de México", canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,3], estado:"ft" },
+		{ fecha:"2026-06-18", hora:"12:00", local:"Rep. Checa",      visita:"Sudáfrica",     grupo:"A", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos", resultado:[1,1], estado:"ft" },
+		{ fecha:"2026-06-18", hora:"15:00", local:"Suiza",           visita:"Bosnia-Herz.",  grupo:"B", sede:"Los Ángeles",      canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[4,1], estado:"ft" },
+		{ fecha:"2026-06-18", hora:"18:00", local:"Canadá",          visita:"Catar",         grupo:"B", sede:"Vancouver",        canales:["CHV","DSports"],           fase:"Grupos", resultado:[6,0], estado:"ft" },
+		{ fecha:"2026-06-18", hora:"22:00", local:"México",          visita:"Corea del Sur", grupo:"A", sede:"Guadalajara",      canales:["DSports","Disney+"],       fase:"Grupos", resultado:[1,0], estado:"ft" },
+		{ fecha:"2026-06-19", hora:"15:00", local:"Estados Unidos",  visita:"Australia",     grupo:"D", sede:"Seattle",          canales:["CHV","DSports"],           fase:"Grupos", resultado:[2,0], estado:"ft" },
+		{ fecha:"2026-06-19", hora:"18:00", local:"Escocia",         visita:"Marruecos",     grupo:"C", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos", resultado:[0,1], estado:"ft" },
+		{ fecha:"2026-06-19", hora:"21:00", local:"Brasil",          visita:"Haití",         grupo:"C", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos", resultado:[3,0], estado:"ft" },
+		{ fecha:"2026-06-19", hora:"23:00", local:"Turquía",         visita:"Paraguay",      grupo:"D", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos", resultado:[0,1], estado:"ft" },
+		{ fecha:"2026-06-20", hora:"13:00", local:"Países Bajos",    visita:"Suecia",        grupo:"F", sede:"Houston",          canales:["DSports"],                 fase:"Grupos", resultado:[5,1], estado:"ft" },
+		{ fecha:"2026-06-20", hora:"16:00", local:"Alemania",        visita:"Costa de Marfil",grupo:"E",sede:"Toronto",          canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[1,2], estado:"ft" },
+		{ fecha:"2026-06-20", hora:"20:00", local:"Ecuador",         visita:"Curazao",       grupo:"E", sede:"Kansas City",      canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[0,0], estado:"ft" },
+		{ fecha:"2026-06-21", hora:"00:00", local:"Túnez",           visita:"Japón",         grupo:"F", sede:"Monterrey",        canales:["CHV","DSports"],           fase:"Grupos", resultado:[0,4], estado:"ft" },
+		{ fecha:"2026-06-21", hora:"12:00", local:"España",          visita:"Arabia Saudita",grupo:"H", sede:"Atlanta",          canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[4,0], estado:"ft" },
+		{ fecha:"2026-06-21", hora:"15:00", local:"Bélgica",         visita:"Irán",          grupo:"G", sede:"Los Ángeles",      canales:["CHV","DSports"],           fase:"Grupos", resultado:[0,0], estado:"ft" },
+		{ fecha:"2026-06-21", hora:"18:00", local:"Uruguay",         visita:"Cabo Verde",    grupo:"H", sede:"Miami",            canales:["DSports"],                 fase:"Grupos", resultado:[2,2], estado:"ft" },
+		{ fecha:"2026-06-21", hora:"21:00", local:"Nueva Zelanda",   visita:"Egipto",        grupo:"G", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:[1,3], estado:"ft" },
+		{ fecha:"2026-06-22", hora:"13:00", local:"Argentina",       visita:"Austria",       grupo:"J", sede:"Dallas",           canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[0,2], estado:"ft" },
+		{ fecha:"2026-06-22", hora:"17:00", local:"Francia",         visita:"Irak",          grupo:"I", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos", resultado:[3,0], estado:"ft" },
+		{ fecha:"2026-06-22", hora:"20:00", local:"Noruega",         visita:"Senegal",       grupo:"I", sede:"Nueva Jersey",     canales:["CHV","DSports"],           fase:"Grupos", resultado:[3,2], estado:"ft" },
+		{ fecha:"2026-06-22", hora:"23:00", local:"Jordania",        visita:"Argelia",       grupo:"J", sede:"San Francisco",    canales:["DSports"],                 fase:"Grupos", resultado:[0,0], estado:"live" },
+		{ fecha:"2026-06-23", hora:"13:00", local:"Portugal",        visita:"Uzbekistán",    grupo:"K", sede:"Houston",          canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-23", hora:"16:00", local:"Inglaterra",      visita:"Ghana",         grupo:"L", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-23", hora:"19:00", local:"Panamá",          visita:"Croacia",       grupo:"L", sede:"Toronto",          canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-23", hora:"22:00", local:"Colombia",        visita:"RD Congo",      grupo:"K", sede:"Guadalajara",      canales:["DSports","Disney+"],       fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"15:00", local:"Suiza",           visita:"Canadá",        grupo:"B", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"15:00", local:"Bosnia-Herz.",    visita:"Catar",         grupo:"B", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"18:00", local:"Brasil",          visita:"Escocia",       grupo:"C", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"18:00", local:"Marruecos",       visita:"Haití",         grupo:"C", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"21:00", local:"México",          visita:"Rep. Checa",    grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-24", hora:"21:00", local:"Sudáfrica",       visita:"Corea del Sur", grupo:"A", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"16:00", local:"Curazao",         visita:"Costa de Marfil",grupo:"E",sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"16:00", local:"Ecuador",         visita:"Alemania",      grupo:"E", sede:"Nueva Jersey",     canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"19:00", local:"Japón",           visita:"Suecia",        grupo:"F", sede:"Dallas",           canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"19:00", local:"Túnez",           visita:"Países Bajos",  grupo:"F", sede:"Kansas City",      canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"22:00", local:"Turquía",         visita:"Estados Unidos",grupo:"D", sede:"Los Ángeles",      canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-25", hora:"22:00", local:"Paraguay",        visita:"Australia",     grupo:"D", sede:"San Francisco",    canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"15:00", local:"Noruega",         visita:"Francia",       grupo:"I", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"15:00", local:"Senegal",         visita:"Irak",          grupo:"I", sede:"Toronto",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"20:00", local:"Cabo Verde",      visita:"Arabia Saudita",grupo:"H", sede:"Houston",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"20:00", local:"Uruguay",         visita:"España",        grupo:"H", sede:"Guadalajara",      canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"23:00", local:"Egipto",          visita:"Irán",          grupo:"G", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-26", hora:"23:00", local:"Nueva Zelanda",   visita:"Bélgica",       grupo:"G", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"17:00", local:"Inglaterra",      visita:"Panamá",        grupo:"L", sede:"Nueva Jersey",     canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"17:00", local:"Croacia",         visita:"Ghana",         grupo:"L", sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"19:30", local:"Portugal",        visita:"Colombia",      grupo:"K", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"19:30", local:"RD Congo",        visita:"Uzbekistán",    grupo:"K", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"22:00", local:"Argentina",       visita:"Jordania",      grupo:"J", sede:"Dallas",           canales:["DSports","Disney+"],       fase:"Grupos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-27", hora:"22:00", local:"Argelia",         visita:"Austria",       grupo:"J", sede:"Kansas City",      canales:["DSports"],                 fase:"Grupos", resultado:null, estado:"pendiente" },
+		// ── RONDA DE 32 ─────────────────────────────────────────────────────────────
+		{ fecha:"2026-06-28", hora:"TBD", local:"1º Grupo A",  visita:"3º mejor",   grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-28", hora:"TBD", local:"1º Grupo C",  visita:"3º mejor",   grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-29", hora:"TBD", local:"1º Grupo B",  visita:"3º mejor",   grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-29", hora:"TBD", local:"1º Grupo D",  visita:"2º Grupo D", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-30", hora:"TBD", local:"1º Grupo E",  visita:"3º mejor",   grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-06-30", hora:"TBD", local:"1º Grupo F",  visita:"2º Grupo F", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-01", hora:"TBD", local:"1º Grupo G",  visita:"2º Grupo G", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-01", hora:"TBD", local:"1º Grupo H",  visita:"2º Grupo H", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-02", hora:"TBD", local:"1º Grupo I",  visita:"2º Grupo I", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-02", hora:"TBD", local:"1º Grupo J",  visita:"2º Grupo J", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-03", hora:"TBD", local:"1º Grupo K",  visita:"2º Grupo K", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-03", hora:"TBD", local:"1º Grupo L",  visita:"2º Grupo L", grupo:"-", sede:"TBD", canales:["DSports"], fase:"Ronda 32", resultado:null, estado:"pendiente" },
+		// ── OCTAVOS ─────────────────────────────────────────────────────────────────
+		{ fecha:"2026-07-04", hora:"TBD", local:"Octavo 1", visita:"Octavo 2", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-05", hora:"TBD", local:"Octavo 3", visita:"Octavo 4", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-06", hora:"TBD", local:"Octavo 5", visita:"Octavo 6", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-07", hora:"TBD", local:"Octavo 7", visita:"Octavo 8", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Octavos", resultado:null, estado:"pendiente" },
+		// ── CUARTOS ─────────────────────────────────────────────────────────────────
+		{ fecha:"2026-07-09", hora:"TBD", local:"Cuarto 1", visita:"Cuarto 2", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-10", hora:"TBD", local:"Cuarto 3", visita:"Cuarto 4", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-11", hora:"TBD", local:"Cuarto 5", visita:"Cuarto 6", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-12", hora:"TBD", local:"Cuarto 7", visita:"Cuarto 8", grupo:"-", sede:"TBD", canales:["CHV","DSports","Disney+"], fase:"Cuartos", resultado:null, estado:"pendiente" },
+		// ── SEMIFINALES ─────────────────────────────────────────────────────────────
+		{ fecha:"2026-07-14", hora:"TBD", local:"Semifinal 1", visita:"", grupo:"-", sede:"Atlanta", canales:["CHV","DSports","Disney+"], fase:"Semifinal", resultado:null, estado:"pendiente" },
+		{ fecha:"2026-07-15", hora:"TBD", local:"Semifinal 2", visita:"", grupo:"-", sede:"Dallas",  canales:["CHV","DSports","Disney+"], fase:"Semifinal", resultado:null, estado:"pendiente" },
+		// ── 3ER LUGAR ───────────────────────────────────────────────────────────────
+		{ fecha:"2026-07-18", hora:"TBD", local:"3er Lugar", visita:"", grupo:"-", sede:"Miami", canales:["CHV","DSports","Disney+"], fase:"3er Lugar", resultado:null, estado:"pendiente" },
+		// ── FINAL ───────────────────────────────────────────────────────────────────
+		{ fecha:"2026-07-19", hora:"17:00", local:"GRAN FINAL", visita:"", grupo:"-", sede:"Nueva Jersey (MetLife)", canales:["CHV","DSports","Disney+"], fase:"Final", resultado:null, estado:"pendiente" },
+		];
+		
+		// ─── ESTADO ──────────────────────────────────────────────────────────────────
+		let tabActivo = "todos";
+		
+		function setTab(tab) {
+			tabActivo = tab;
+			["todos","proximos","jugados"].forEach(t => {
+				const el = document.getElementById("tab-"+t);
+				el.className = "tab" + (t === tab ? " active-"+t : "");
+			});
+			render();
+		}
+		
+		// ─── RENDER ──────────────────────────────────────────────────────────────────
+		function render() {
+			const q     = document.getElementById("busqueda").value.toLowerCase();
+			const canal = document.getElementById("filtroCanal").value;
+			const fase  = document.getElementById("filtroFase").value;
+			
+			const filtrados = partidos.filter(p => {
+				const esJugado  = p.estado === "ft";
+				const esPendiente = p.estado !== "ft";
+				if (tabActivo === "jugados"  && !esJugado)   return false;
+				if (tabActivo === "proximos" && !esPendiente) return false;
+				const mCanal = canal === "Todos" || p.canales.includes(canal);
+				const mFase  = fase  === "Todos" || p.fase === fase;
+				const mQ     = !q || p.local.toLowerCase().includes(q) || p.visita.toLowerCase().includes(q) || p.sede.toLowerCase().includes(q);
+				return mCanal && mFase && mQ;
+			});
+			
+			document.getElementById("contador").textContent =
+			`Mostrando ${filtrados.length} partido${filtrados.length !== 1 ? "s" : ""}`;
+			
+			const grupos = {};
+			for (const p of filtrados) {
+				if (!grupos[p.fecha]) grupos[p.fecha] = [];
+				grupos[p.fecha].push(p);
+			}
+			const fechas = Object.keys(grupos).sort();
+			
+			const lista = document.getElementById("lista");
+			if (fechas.length === 0) {
+				lista.innerHTML = `<div class="empty">No hay partidos con esos filtros.</div>`;
+				return;
+			}
+			
+			lista.innerHTML = fechas.map(f => {
+				const ps  = grupos[f];
+				const fc  = FASE_COL[ps[0].fase] || "#333";
+				
+				const cards = ps.map(p => {
+					const jugado = p.estado === "ft";
+					const live   = p.estado === "live";
+					const res    = p.resultado;
+					
+					// Determinar ganador
+					let claseLocal = "", claseVisita = "";
+					if (jugado && res) {
+						if (res[0] > res[1])      { claseLocal = "ganador"; claseVisita = "perdedor"; }
+						else if (res[0] < res[1]) { claseLocal = "perdedor"; claseVisita = "ganador"; }
+					}
+					
+					// Marcador
+					let marcador = "";
+					if (res) {
+						marcador = `<div class="card-marcador">${res[0]} <span>-</span> ${res[1]}</div>`;
+					} else {
+						marcador = `<div class="card-marcador pendiente">vs</div>`;
+					}
+					
+					// Estado badge
+					let estadoBadge = "";
+					if (jugado)    estadoBadge = `<span class="estado-badge estado-ft">Finalizado</span>`;
+					else if (live) estadoBadge = `<span class="estado-badge estado-live">● En vivo</span>`;
+					
+					// Hora
+					const horaClass = jugado ? "card-hora finalizado" : "card-hora";
+					const horaLabel = p.hora !== "TBD" ? `🕐 ${p.hora} hrs` : "🕐 Hora por definir";
+					
+					const canalesBadges = p.canales.map(c => {
+						const info = CANALES[c] || {};
+						return `<span class="badge" style="background:${info.bg};color:${info.text}">${info.label||c}</span>`;
+					}).join("");
+					
+					return `
+					<div class="card${jugado?" jugado":""}" style="border-left-color:${FASE_COL[p.fase]||'#444'}">
+						<div class="card-top">
+							<span class="${horaClass}">${horaLabel}</span>
+							<div style="display:flex;gap:6px;align-items:center">
+							${estadoBadge}
+							${p.grupo !== "-" ? `<span class="card-grupo">Grupo ${p.grupo}</span>` : ""}
+							</div>
+						</div>
+						<div class="card-partido-row">
+							<div class="card-equipo ${claseLocal}">${p.local}</div>
+							${marcador}
+							<div class="card-equipo ${claseVisita}" style="text-align:right">${p.visita}</div>
+						</div>
+						<div class="card-sede">📍 ${p.sede}</div>
+						<div class="card-canales">${canalesBadges}</div>
+					</div>`;
+				}).join("");
+				
+				return `
+				<div class="fecha-grupo">
+				<div class="fecha-header">
+					<span class="fase-pill" style="background:${fc}">${ps[0].fase}</span>
+					<span class="fecha-label">${fmtFecha(f)}</span>
+					<div class="fecha-line"></div>
+				</div>
+				${cards}
+				</div>`;
+			}).join("");
+		}
+		
+		render();
+	</script>
 </body>
 </html>
