@@ -142,8 +142,8 @@
 	
 	<!-- TABS: Próximos · En vivo · Jugados · Todos -->
 	<div class="tabs">
-		<div class="tab active-proximos" id="tab-proximos" onclick="setTab('proximos')">🟢 Próximos</div>
-		<div class="tab"                 id="tab-envivo"   onclick="setTab('envivo')">🔴 En vivo</div>
+		<div class="tab active-envivo"   id="tab-envivo"   onclick="setTab('envivo')">🔴 En vivo</div>
+		<div class="tab"                 id="tab-proximos" onclick="setTab('proximos')">🟢 Próximos</div>
 		<div class="tab"                 id="tab-jugados"  onclick="setTab('jugados')">✅ Jugados</div>
 		<div class="tab"                 id="tab-todos"    onclick="setTab('todos')">🗓 Todos</div>
 	</div>
@@ -184,8 +184,8 @@
 		"Grupos":"#1a472a","Ronda 32":"#1a3a5c","Octavos":"#2d1b69",
 		"Cuartos":"#6b2e00","Semifinal":"#7a1c1c","3er Lugar":"#4a4a00","Final":"#8b0000",
 		};
-		const DIAS  = ["dom","lun","mar","mié","jue","vie","sáb"];
-		const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+		const DIAS  = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+		const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 		
 		function fmtFecha(str) {
 		const [y,m,d] = str.split("-").map(Number);
@@ -358,7 +358,7 @@
 		{ 
 			fecha:"2026-06-23", hora:"22:00", local:"Colombia",        visita:"RD Congo",      grupo:"K", sede:"Guadalajara",      canales:["DSports","Disney+"],       fase:"Grupos", resultado:null,  estado:"ft", 
 			goles:{
-				local:[nombre:"Daniel Muñoz",min:76], 
+				local:[{nombre:"Daniel Muñoz",min:76}], 
 				visita:[]
 			}
 		},
@@ -468,7 +468,7 @@
 		];
 		
 		// ─── ESTADO ──────────────────────────────────────────────────────────────────
-		let tabActivo  = "proximos";
+		let tabActivo  = "envivo";
 		let ordenDesc  = true; // true = más recientes primero (solo en Jugados)
 		
 		function setTab(tab) {
@@ -618,6 +618,7 @@
 		
 		// Iniciar: ocultar botón orden (solo se ve en Jugados), abrir en Próximos
 		document.getElementById("btnOrden").style.display = "none";
+		setTab("envivo")
 		render();
 	</script>
 </body>
