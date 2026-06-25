@@ -342,7 +342,8 @@
 		},
 		
 		{ 
-			fecha:"2026-06-23", hora:"16:00", local:"Inglaterra",      visita:"Ghana",         grupo:"L", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos", resultado:[0,0],  estado:"ft", goles:null
+			fecha:"2026-06-23", hora:"16:00", local:"Inglaterra",      visita:"Ghana",         grupo:"L", sede:"Boston",           canales:["CHV","DSports"],           fase:"Grupos", resultado:[0,0],  estado:"ft", 
+			goles:null
 		},
 		
 		{ 
@@ -364,33 +365,76 @@
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"15:00", local:"Suiza",           visita:"Canadá",        grupo:"B", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"15:00", local:"Suiza",           visita:"Canadá",        grupo:"B", sede:"Vancouver",        canales:["DSports"],                 fase:"Grupos", resultado:[2,1],  estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Rubén Vargas Martínez",min:46},
+					{nombre:"Johan Manzambi",min:57}
+				],
+				visita:[
+					{nombre:"Promise David",min:76}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"15:00", local:"Bosnia-Herz.",    visita:"Catar",         grupo:"B", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"15:00", local:"Bosnia-Herz.",    visita:"Catar",         grupo:"B", sede:"Seattle",          canales:["DSports"],                 fase:"Grupos", resultado:[3,1],  estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Kerim Alajbegović",min:29},
+					{nombre:"Sultan Al-Brake (GEC)",min:34},
+					{nombre:"Ermin Mahmić",min:80}
+				],
+				visita:[
+					{nombre:"Hassan Al-Haidos",min:42}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"18:00", local:"Brasil",          visita:"Escocia",       grupo:"C", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"18:00", local:"Brasil",          visita:"Escocia",       grupo:"C", sede:"Miami",            canales:["CHV","DSports","Disney+"], fase:"Grupos", resultado:[3,0],  estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Vinícius Júnior",min:7},
+					{nombre:"Vinícius Júnior",min:45+3},
+					{nombre:"Matheus Cunha",min:60}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"18:00", local:"Marruecos",       visita:"Haití",         grupo:"C", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"18:00", local:"Marruecos",       visita:"Haití",         grupo:"C", sede:"Atlanta",          canales:["DSports"],                 fase:"Grupos", resultado:[4,1],  estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Achraf Hakimi",min:39},
+					{nombre:"Ismael Saibari",min:45+1},
+					{nombre:"Soufiane Rahimi",min:78},
+					{nombre:"Gessime Yassine",min:89}
+				],
+				visita:[
+					{nombre:"Yassine Bounou (GEC)",min:10},
+					{nombre:"Wilson Isidor",min:43}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"21:00", local:"México",          visita:"Rep. Checa",    grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports"],           fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"21:00", local:"México",          visita:"Rep. Checa",    grupo:"A", sede:"Ciudad de México", canales:["CHV","DSports"],           fase:"Grupos", resultado:[2,0],  estado:"live", 
+			goles:{
+				local:[
+					{nombre:"Mateo Chávez",min:55},
+					{nombre:"Julián Andrés Quiñones",min:61}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-24", hora:"21:00", local:"Sudáfrica",       visita:"Corea del Sur", grupo:"A", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos", resultado:null,  estado:"live", 
-			goles:null 
+			fecha:"2026-06-24", hora:"21:00", local:"Sudáfrica",       visita:"Corea del Sur", grupo:"A", sede:"Monterrey",        canales:["DSports"],                 fase:"Grupos", resultado:[1,0],  estado:"live", 
+			goles:{
+				local:[
+					{nombre:"Thapelo Maseko",min:63}
+				]
+			}
 		},
 		
 		{ fecha:"2026-06-25", hora:"16:00", local:"Curazao",         visita:"Costa de Marfil",grupo:"E",sede:"Filadelfia",       canales:["DSports"],                 fase:"Grupos", resultado:null,  estado:"pendiente", goles:null },
@@ -563,7 +607,7 @@
 				
 				// Goleadores
 				let goleadoresHTML = "";
-				if (jugado && p.goles) {
+				if ((jugado || live) && p.goles) {
 				const golesLocal   = (p.goles.local  ||[]).map(g=>`<div class="gol-item">⚽ ${g.nombre} <span class="gol-minuto">${g.min}'</span></div>`).join("") || "<div class='gol-item' style='color:#555'>—</div>";
 				const golesVisita  = (p.goles.visita ||[]).map(g=>`<div class="gol-item">⚽ ${g.nombre} <span class="gol-minuto">${g.min}'</span></div>`).join("") || "<div class='gol-item' style='color:#555'>—</div>";
 				goleadoresHTML = `
