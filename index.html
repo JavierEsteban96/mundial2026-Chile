@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Mundial 2026 – Horarios Chile</title>
+	<title>Mundial 2026 - Horarios Chile</title>
 	<style>
 		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 		body { min-height: 100vh; background: #0a0a12; color: #f0f0f0; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -93,6 +93,7 @@
 		}
 		.card-marcador.pendiente { color: #444; font-size: 14px; font-weight: 400; letter-spacing: 1px; }
 		.card-marcador span { font-size: 13px; color: #555; }
+		.card-penales { font-size: 11px; color: #aaa; text-align: center; margin-top: 2px; }
 		
 		/* ESTADO BADGE */
 		.estado-badge { font-size: 10px; font-weight: 700; border-radius: 10px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; }
@@ -686,55 +687,93 @@
 		
 		{ 
 			fecha:"2026-06-29", hora:"13:00", local:"Brasil",  visita:"Japón",   grupo:"-", sede:"Houston", canales:["CHV","Disney+","DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"live", 
-			goles:null
+			resultado:[2,1], estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Casemiro",min:56},
+					{nombre:"Gabriel Martinelli",min:90+6}
+				],
+				visita:[
+					{nombre:"Kaishū Sano",min:29}
+				]
+			}
 		},
 		
 		{ 
 			fecha:"2026-06-29", hora:"16:30", local:"Alemania",  visita:"Paraguay",   grupo:"-", sede:"Boston", canales:["CHV","DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"live", 
-			goles:null 
+			resultado:[1,1], estado:"ft", 
+			penales:[3,4],
+			goles:{
+				local:[
+					{nombre:"Kai Havertz",min:54}
+				],
+				visita:[
+					{nombre:"Julio Enciso",min:42}
+				]
+			}
 		},
 		
 		{ 
 			fecha:"2026-06-29", hora:"21:00", local:"Países Bajos",  visita:"Marruecos", grupo:"-", sede:"Monterrey", canales:["CHV","DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"live", 
-			goles:null 
+			resultado:[1,1], estado:"ft", 
+			penales:[2,3],
+			goles:{
+				local:[
+					{nombre:"Cody Gakpo",min:72}
+				],
+				visita:[
+					{nombre:"Issa Diop",min:90+1}
+				]
+			}
 		},
 		
 		{ 
 			fecha:"2026-06-30", hora:"13:00", local:"Costa de Marfil",  visita:"Noruega",   grupo:"-", sede:"Dallas", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
-			goles:null 
+			resultado:[1,2], estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Amad Diallo",min:74}
+				],
+				visita:[
+					{nombre:"Antonio Nusa",min:39},
+					{nombre:"Erling Haaland",min:86}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-30", hora:"17:00", local:"Francia",  visita:"Suecia", grupo:"-", sede:"Nueva Jersey", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
-			goles:null 
+			fecha:"2026-06-30", hora:"17:00", local:"Francia",  visita:"Suecia", grupo:"-", sede:"Nueva Jersey", canales:["CHV","DSports"], fase:"Ronda 32", 
+			resultado:[3,0], estado:"ft", 
+			goles:{
+				local:[
+					{nombre:"Kylian Mbappé",min:45},
+					{nombre:"Bradley Barcola",min:53},
+					{nombre:"Kylian Mbappé",min:74}
+				]
+			}
 		},
 		
 		{ 
-			fecha:"2026-06-30", hora:"21:00", local:"México",  visita:"Ecuador", grupo:"-", sede:"Ciudad de México", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
+			fecha:"2026-06-30", hora:"21:00", local:"México",  visita:"Ecuador", grupo:"-", sede:"Ciudad de México", canales:["CHV","DSports"], fase:"Ronda 32", 
+			resultado:[0,0], estado:"live", 
 			goles:null 
 		},
 		
 		{ 
 			fecha:"2026-07-01", hora:"12:00", local:"Inglaterra",  visita:"RD Congo", grupo:"-", sede:"Atlanta", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
+			resultado:null, estado:"live", 
 			goles:null 
 		},
 		
 		{ 
-			fecha:"2026-07-01", hora:"16:00", local:"Bélgica",  visita:"Senegal", grupo:"-", sede:"Seattle", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
+			fecha:"2026-07-01", hora:"16:00", local:"Bélgica",  visita:"Senegal", grupo:"-", sede:"Seattle", canales:["CHV","DSports"], fase:"Ronda 32", 
+			resultado:null, estado:"live", 
 			goles:null 
 		},
 		
 		{ 
 			fecha:"2026-07-01", hora:"20:00", local:"Estados Unidos",  visita:"Bosnia y Herzegovina", grupo:"-", sede:"San Francisco", canales:["DSports"], fase:"Ronda 32", 
-			resultado:null, estado:"pendiente", 
+			resultado:null, estado:"live", 
 			goles:null 
 		},
 		
@@ -776,18 +815,18 @@
 		
 		// ── OCTAVOS ──────────────────────────────────────────────────────────────────
 		{ 
-			fecha:"2026-07-04", hora:"13:00", local:"Canadá", visita:"-", grupo:"-", sede:"Houston", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
+			fecha:"2026-07-04", hora:"13:00", local:"Canadá", visita:"Marruecos", grupo:"-", sede:"Houston", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
 			resultado:null, estado:"pendiente", 
 			goles:null 
 		},
 		{ 
-			fecha:"2026-07-04", hora:"17:00", local:"-", visita:"-", grupo:"-", sede:"Filadelfia", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
+			fecha:"2026-07-04", hora:"17:00", local:"Paraguay", visita:"Francia", grupo:"-", sede:"Filadelfia", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
 			resultado:null, estado:"pendiente", 
 			goles:null 
 		},
 		
 		{ 
-			fecha:"2026-07-05", hora:"16:00", local:"-", visita:"-", grupo:"-", sede:"Nueva Jersey", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
+			fecha:"2026-07-05", hora:"16:00", local:"Brasil", visita:"Noruega", grupo:"-", sede:"Nueva Jersey", canales:["CHV","DSports","Disney+"], fase:"Octavos", 
 			resultado:null, estado:"pendiente", 
 			goles:null 
 		},
@@ -944,13 +983,22 @@
 				// Ganador/perdedor
 				let claseLocal = "", claseVisita = "";
 				if (jugado && res) {
-				if      (res[0] > res[1]) { claseLocal = "ganador"; claseVisita = "perdedor"; }
-				else if (res[0] < res[1]) { claseLocal = "perdedor"; claseVisita = "ganador"; }
+				const pen = p.penales;
+				const golesL = pen ? pen[0] : res[0];
+				const golesV = pen ? pen[1] : res[1];
+				if      (golesL > golesV) { claseLocal = "ganador"; claseVisita = "perdedor"; }
+				else if (golesL < golesV) { claseLocal = "perdedor"; claseVisita = "ganador"; }
 				}
 				
 				// Marcador
+				const penales = p.penales
+				? `<div class="card-penales">(${p.penales[0]}-${p.penales[1]} pen.)</div>`
+				: "";
 				const marcador = res
-				? `<div class="card-marcador">${res[0]} <span>-</span> ${res[1]}</div>`
+				? `<div style="text-align:center">\
+						<div class="card-marcador">${res[0]} <span>-</span> ${res[1]}</div>\
+						${penales}\
+					</div>`
 				: `<div class="card-marcador pendiente">vs</div>`;
 				
 				// Estado badge
